@@ -2,12 +2,10 @@ import { Song } from "@/types/song";
 
 export const removeDuplicates = (orig: Song[]) => {
     const names = orig.map(song => song.name);
-
     const deduped = orig.filter((song, index) => {
         return names.indexOf(song.name) === index;
     });
 
-    console.log({ deduped });
     return deduped;
 };
 

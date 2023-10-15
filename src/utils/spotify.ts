@@ -83,6 +83,7 @@ export async function getViralTracks(accessToken: string): Promise<Track[]> {
     // for each playlist in playlistIDs
     console.log(`getting tracks from ${playlistIDs.length} platlists`);
     console.log({ playlistIDs });
+
     const listOfListOfSongs = await Promise.all(
         playlistIDs.map(async (playlistID) => {
             const urlPlaylist = `https://api.spotify.com/v1/playlists/${playlistID}`;
