@@ -87,8 +87,8 @@ export default function Home() {
   };
 
   return (
-    <main className="flex h-screen flex-col items-center justify-center">
-      <div className="App">
+    <main className="flex min-h-screen flex-col items-center justify-center">
+      <div className="px-6">
         <h1 className="text-5xl font-extrabold text-center">Tiktok Viral Checker ✅</h1>
         <h3 className="text-2xl text-center">See if your song is viral on Tiktok</h3>
         <div className="h-8"></div>
@@ -102,7 +102,7 @@ export default function Home() {
             />
             <button
               className="!absolute right-1 top-1 z-10 select-none rounded bg-pink-500 py-2 px-4 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none peer-placeholder-shown:pointer-events-none peer-placeholder-shown:bg-blue-gray-500 peer-placeholder-shown:opacity-50 peer-placeholder-shown:shadow-none"
-              type="button"
+              type="submit"
               data-ripple-light="true"
             >
               Submit
