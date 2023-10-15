@@ -9,7 +9,7 @@ const SearchResults = ({ results, onSelect }: {
             {results.map((item, i) => (
                 <div
                     onClick={() => onSelect(item)}
-                    className="bg-white rounded-xl shadow-lg text-center md:text-left p-3 m-2"
+                    className="bg-white rounded-xl shadow-lg text-center md:text-left p-3 my-2"
                     key={i}>
                     <p>
                         {item.name} by {item.artist}
