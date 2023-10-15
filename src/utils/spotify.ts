@@ -64,7 +64,7 @@ export async function searchSong(song: string, accessToken: string) {
 };
 
 export async function checkViral(id: string | string[], accesToken: string) {
-    const playlists = await getPlaylist(accesToken);
+    const playlists = await getViralTracks(accesToken);
     const temp = playlists.map((e: Track) => e?.id).filter((e: string) => {
         return e !== undefined && e !== null;
     });
@@ -79,8 +79,10 @@ export async function checkViral(id: string | string[], accesToken: string) {
     }
 }
 
-export async function getPlaylist(accessToken: string): Promise<Track[]> {
+export async function getViralTracks(accessToken: string): Promise<Track[]> {
     // for each playlist in playlistIDs
+    console.log(`getting tracks from ${playlistIDs.length} platlists`);
+    console.log({ playlistIDs });
     const listOfListOfSongs = await Promise.all(
         playlistIDs.map(async (playlistID) => {
             const urlPlaylist = `https://api.spotify.com/v1/playlists/${playlistID}`;
