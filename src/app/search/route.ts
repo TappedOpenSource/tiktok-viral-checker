@@ -16,6 +16,6 @@ export async function POST(request: Request) {
     }
 
     return Response.json({
-        results: searchResult,
+        results: searchResult.slice(0, 10),
     })
 }

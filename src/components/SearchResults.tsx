@@ -7,12 +7,14 @@ const SearchResults = ({ results, onSelect }: {
     return (
         <>
             {results.map((item, i) => (
-                <button
+                <div
                     onClick={() => onSelect(item)}
-                    className="btn btn-light rounded w-50 mx-auto d-block mb-2"
+                    className="bg-white rounded-xl shadow-lg text-center md:text-left p-3 m-2"
                     key={i}>
-                    {item.name} by {item.artist}
-                </button>
+                    <p>
+                        {item.name} by {item.artist}
+                    </p>
+                </div>
             ))}
         </>
     );

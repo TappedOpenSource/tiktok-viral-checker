@@ -1,7 +1,6 @@
 import { Song } from "@/types/song";
 import { Track } from "@/types/track";
 
-
 const clientId = process.env.SPOTIFY_CLIENT_ID ?? "";
 const clientSecret = process.env.SPOTIFY_CLIENT_SECRET ?? "";
 const playlistIDs = process.env.SPOTIFY_PLAYLIST_IDS?.split(",") ?? [];
@@ -50,48 +49,39 @@ export async function searchSong(song: string, accessToken: string) {
         },
     });
 
-
     const json = await res.json();
     const tracks: Track[] = await json.tracks.items;
+    // console.log({ tracks });
+
     return tracks.map((track) => {
+        if (track === null) return null;
         return {
             name: track.name,
             artist: track.artists[0].name,
             id: track.id
         }
-    })
-    //out = checkDuplicates(out)
+    }).filter((track) => track !== null);
 };
 
-export async function checkViral(playlists: Song[], id: string | string[]) {
-    let out = false;
-    const temp = playlists.map((e: Song) => e.id);
+export async function checkViral(id: string | string[], accesToken: string) {
+    const playlists = await getPlaylist(accesToken);
+    const temp = playlists.map((e: Track) => e?.id).filter((e: string) => {
+        return e !== undefined && e !== null;
+    });
 
     if (Array.isArray(id)) {
-        id.forEach(item => {
-            //console.log(item)
-            if (temp.includes(item)) {
-                out = true;
-                //console.log("MATCH")
-            }
-        })
+        const filteredArray = temp.filter(value => id.includes(value));
+        console.log('BINGO');
+        return filteredArray.length > 0;
     } else {
-        //console.log('one arg')
-        playlists.forEach((song: Song) => {
-            if (song.id == id) {
-                // song is viral
-                //console.log("MATCH")
-                out = true;
-            }
-        })
+        console.log('BONGO');
+        return temp.includes(id);
     }
-    //console.log(viralPlaylists);
-    return out;
 }
 
-export async function getPlaylist(accessToken: string): Promise<Song[]> {
+export async function getPlaylist(accessToken: string): Promise<Track[]> {
     // for each playlist in playlistIDs
-    const outputs = await Promise.all(
+    const listOfListOfSongs = await Promise.all(
         playlistIDs.map(async (playlistID) => {
             const urlPlaylist = `https://api.spotify.com/v1/playlists/${playlistID}`;
 
@@ -104,14 +94,15 @@ export async function getPlaylist(accessToken: string): Promise<Song[]> {
             })
 
             const { tracks } = await res.json();
-            const songs: Song[] = tracks.items;
+            const songs = tracks.items.map((song: { track: Track }) => song.track);
 
-            console.log({ songs });
             return songs;
         }),
     );
 
-    const flat = outputs.flat(1);
+    const flat = listOfListOfSongs.flat(1);
+
+    // console.log({ flat });
 
     // make request to spotify API
     // const url = 'https://api.spotify.com/v1/tracks/2TpxZ7JUBn3uw46aR7qd6V';

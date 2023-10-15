@@ -1,4 +1,4 @@
-import { checkViral, connectSpotify, getPlaylist } from "@/utils/spotify";
+import { checkViral, connectSpotify } from "@/utils/spotify";
 import { get } from "http";
 
 export async function POST(request: Request) {
@@ -7,9 +7,8 @@ export async function POST(request: Request) {
   console.log({ id, term });
 
   const accessToken = await connectSpotify();
-  const playlists = await getPlaylist(accessToken);
   if (id !== undefined && id !== null) {
-    const isViral = await checkViral(playlists, id);
+    const isViral = await checkViral(id, accessToken);
     return Response.json({
       is_viral: isViral,
     })
@@ -22,7 +21,7 @@ export async function POST(request: Request) {
     idArr[index] = item.replace(/[^a-z0-9]/gi, '')
   })
   //console.log(idArr);
-  const isViral = await checkViral(playlists, idArr);
+  const isViral = await checkViral(idArr, accessToken);
 
   return Response.json({
     is_viral: isViral,
