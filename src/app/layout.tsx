@@ -17,8 +17,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={rubik.className}>{children}</body>
-      <Analytics />
+      <body className={rubik.className}>
+        {children}
+        <Analytics />
+      </body>
     </html>
   )
 }
